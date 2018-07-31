@@ -1,0 +1,92 @@
+#include("/template/common/layout/_page_layout.html")
+#@layout()
+
+#define css()
+<style>
+
+</style>
+#end
+
+#define js()
+<script type="text/javascript">
+layui.use(['laypage', 'layer'], function() {
+    var laypage = layui.laypage
+            , layer = layui.layer;
+});
+</script>
+#end
+
+#define content()
+   
+   <div class="page-container p10">
+
+    <div class="my-toolbar-box">
+        <div class="layui-btn-group">
+            <a data-full="1" data-href="/movie/base/type/add" class="layui-btn layui-btn-primary j-iframe"><i class="layui-icon">&#xe654;</i>添加</a>
+            <a data-href="/movie/base/type/update" class="layui-btn layui-btn-primary j-page-btns confirm"><i class="layui-icon">&#xe642;</i>修改</a>
+            <a data-href="/movie/base/type/delete" class="layui-btn layui-btn-primary j-page-btns confirm"><i class="layui-icon">&#xe640;</i>删除</a>
+            <a data-href="{:url('index/select')}?tab=type&col=type_status&tpl=select_status&url=type/field" data-width="470" data-height="100" data-checkbox="1" class="layui-btn layui-btn-primary j-select"><i class="layui-icon">&#xe620;</i>状态</a>
+        </div>
+
+    </div>
+
+    <form class="layui-form " method="post" id="pageListForm">
+        <table class="layui-table" lay-size="sm">
+        <thead>
+            <tr>
+                <th width="25"><input type="checkbox" lay-skin="primary" lay-filter="allChoose"></th>
+                <th>名称</th>
+                <th width="50">状态</th>
+                <th width="40">类型</th>
+                <th width="40">排序</th>
+                <th width="80">名称</th>
+                <th width="120">英文名</th>
+                <th width="130">操作</th>
+            </tr>
+            </thead>
+
+            #for(p:typeList)
+            <tr>
+                <td><input type="checkbox" name="ids[]" value="#(p.type_id)" class="layui-checkbox checkbox-ids" lay-skin="primary"></td>
+                <td>#(p.type_id)、#(p.type_name)</td>
+                <td>
+                    <input type="checkbox" name="status" #if(p.type_status)checked#end  value="#(p.type_status)" lay-skin="switch" lay-filter="switchStatus" lay-text="正常|关闭" data-href="#if(p.type_status)/movie/base/type/unuse?id=#(p.type_id)#else/movie/base/type/use?id=#(p.type_id)#end">
+                </td>
+                <td>#movieData("TYPE_MID", p.type_mid.toString())</td>
+                <td><input type="input" name="type_sort_{$vo.type_id}" value="#(p.type_sort)" class="layui-input"></td>
+                <td><input type="input" name="type_name_{$vo.type_id}" value="#(p.type_name)" class="layui-input"></td>
+                <td><input type="input" name="type_en_{$vo.type_id}" value="#(p.type_en)" class="layui-input"></td>
+                <td>
+                    <a class="layui-badge-rim j-iframe" data-full="1" data-href="/movie/base/type/update?id=#(p.type_id)" href="javascript:;" title="编辑">编辑</a>
+                    <a class="layui-badge-rim j-tr-del" data-href="/movie/base/type/delete?id=#(p.type_id)" href="javascript:;" title="删除">删除</a>
+                    <a class="layui-badge-rim j-iframe" data-full="1" data-href="/movie/base/type/update?pid=#(p.type_id)" href="javascript:;" title="添加">添加</a>
+                </td>
+            </tr>
+            #for(c:p.child)
+            <tr>
+                <td><input type="checkbox" name="ids[]" value="#(c.type_id)" class="layui-checkbox checkbox-ids" lay-skin="primary"></td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;├&nbsp;#(c.type_id)、#(c.type_name)</td>
+                <td>
+                    <input type="checkbox" name="status" #if(c.type_status)checked#end  value="#(c.type_status)" lay-skin="switch" lay-filter="switchStatus" lay-text="正常|关闭" data-href="#if(c.type_status)/movie/base/type/unuse?id=#(c.type_id)#else/movie/base/type/use?id=#(c.type_id)#end">
+                </td>
+                <td>#movieData("TYPE_MID", c.type_mid.toString())</td>
+                <td><input type="input" name="type_sort_{$ch.type_id}" value="#(c.type_sort)" class="layui-input"></td>
+                <td><input type="input" name="type_name_{$ch.type_id}" value="#(c.type_name)" class="layui-input"></td>
+                <td><input type="input" name="type_en_{$ch.type_id}" value="#(c.type_en)" class="layui-input"></td>
+                <td>
+                    <a class="layui-badge-rim j-iframe" data-full="1" data-href="/movie/base/type/update?id=#(c.type_id)" href="javascript:;" title="编辑">编辑</a>
+                    <a class="layui-badge-rim j-tr-del" data-href="/movie/base/type/delete?id=#(c.type_id)" href="javascript:;" title="删除">删除</a>
+                </td>
+            </tr>
+
+
+            #end
+
+            #end
+            </tbody>
+        </table>
+
+    </form>
+</div>
+   
+#end

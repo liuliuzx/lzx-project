@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>lzx-movie-module</artifactId>
+        <groupId>com.lzx</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>lzx-movie-service</artifactId>
+    <packaging>pom</packaging>
+
+
+    <modules>
+    	<module>lzx-movie-service-entity</module>
+    	<module>lzx-movie-service-apilzx-movie-service-api</module>
+    	<module>
+    		lzx-movie-service-providerlzx-movie-service-provider
+    	</module>
+    </modules>
+</project>

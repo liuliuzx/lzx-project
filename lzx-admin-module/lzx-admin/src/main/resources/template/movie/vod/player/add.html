@@ -1,0 +1,130 @@
+#include("/template/common/layout/_page_layout.html")
+#@layout()
+
+#define css()
+<style>
+
+</style>
+#end
+
+#define js()
+<script type="text/javascript">
+    layui.use(['form', 'layer'], function () {
+        // 操作对象
+        var form = layui.form
+            , layer = layui.layer
+            , $ = layui.jquery;
+
+        form.on('submit(sub)', function(data){
+
+            util.sendAjax ({
+                type: 'POST',
+                url: '#(ctxPath)/movie/vod/player/postAdd',
+                data: $('#addForm').serialize(),
+                loadFlag: true,
+                success : function(data){
+                    pop_close();
+                }
+            });
+
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    });
+</script>
+#end
+
+#define content()
+<div class="x-body">
+    <form class="layui-form layui-form-pane" id="addForm" method="post" action="">
+        <div class="layui-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">基本设置</li>
+                <li>播放器代码</li>
+            </ul>
+            <div class="layui-tab-content">
+
+                <div class="layui-tab-item layui-show">
+
+					<div class="layui-form-item">
+                        <label class="layui-form-label">ID：</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" value="#(macVodPlayer.id ??)" placeholder="ID" id="from" name="macVodPlayer.id">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">状态：</label>
+                        <div class="layui-input-block">
+                           <select id='status' name="macVodPlayer.status" lay-verify="required">
+			                    <option></option>
+			                    #statusOption(com.lzx.movie.service.entity.status.MacVodPlayerStatus::me(), macVodPlayer.status ??)
+			                </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">编码：</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" value="#(macVodPlayer.from ??)" placeholder="唯一标识英文、纯数字会自动加_" id="from" name="macVodPlayer.from">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">名称：</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" value="#(macVodPlayer.show ??)" placeholder="中文播放器名称" id="show" name="macVodPlayer.show">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注：</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" value="#(macVodPlayer.dec ??)" placeholder="des备注信息" id="des" name="macVodPlayer.dec">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">解析状态：</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" value="#(macVodPlayer.ps ??)" placeholder="0或者1" id="sort" name="macVodPlayer.ps">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">解析接口：</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" value="#(macVodPlayer.parse ??)" placeholder="独立解析地址，权重高于全局播放器设置的解析" id="parse" name="macVodPlayer.parse">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">排序：</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" value="#(macVodPlayer.sort ??)" placeholder="数值越大排列越靠前" id="sort" name="macVodPlayer.sort">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">提示：</label>
+                        <div class="layui-input-block">
+                            <textarea name="macVodPlayer.tip" cols="" style="height:50px;min-height:50px;" class="layui-textarea"  placeholder="tip提示信息" >#(macVodPlayer.tip ??)</textarea>
+                        </div>
+                    </div>
+              </div>
+                <div class="layui-tab-item">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文件：</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" value="/static/player/{$info.from}.js" disabled="disabled">
+
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">代码：</label>
+                        <div class="layui-input-block">
+                            <textarea name="code" cols="" rows="20" class="layui-textarea"  placeholder="播放器JS代码" >{$info.code}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+        <div class="layui-form-item center">
+            <div class="layui-input-block">
+                <button  class="layui-btn" lay-filter="sub" lay-submit>保存</button>
+                <button class="layui-btn layui-btn-warm" type="reset">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+#end
